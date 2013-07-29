@@ -6,9 +6,14 @@ module SterlingApi
   class BackgroundCheck
     extend XmlHelper
 
-    ALL_IDS = AppSettings[:sterling_api_mode] =~ /prod/ ? [25212, 25213, 25214, 25750, 25751, 25752, 25753, 25911] : [19432, 19439, 19440, 19442, 19443, 19444, 19445, 19437]
-    
-    MVR_IDS = AppSettings[:sterling_api_mode] =~ /prod/ ? [25214, 25750] : [19440, 19442]
+    def self.all_ids(mode)
+      mode.to_s =~ /prod/ ? [25212, 25213, 25214, 25750, 25751, 25752, 25753, 25911] : [19432, 19439, 19440, 19442, 19443, 19444, 19445, 19437]
+    end
+
+    def self.mvr_ids(mode)
+      mode.to_s =~ /prod/ ? [25214, 25750] : [19440, 19442]
+    end
+
     # 
     # PRI-FAM:
     # PRI-FFM:
@@ -44,7 +49,7 @@ module SterlingApi
     #  Package 2 can logically be ordered with 5 & 9
     #  Package 3 can logically be ordered with 9 & 14
     #  Any combination of 5,6,7,9 & 14 could be ordered.
-    #
+    #  
     #
     def self.for_package(package_id, options)
       package_id = package_id.to_i
@@ -53,8 +58,8 @@ module SterlingApi
 
       background_check.add_ssnv # required for one-step orders
 
-      background_check.add_name_and_address if ALL_IDS.include?(package_id)
-      background_check.add_mvr if MVR_IDS.include?(package_id)
+      background_check.add_name_and_address if all_ids(options[:mode]).include?(package_id)
+      background_check.add_mvr              if mvr_ids(options[:mode]).include?(package_id)
       
       background_check
     end
