@@ -128,7 +128,7 @@ module SterlingApi
                   xml.PositionTitle @options[:position_applied_for]
                 }
               }
-              if MVR_IDS.include?(@options[:package_id])
+              if mvr_ids(@options[:mode]).include?(@options[:package_id])
                 xml.Screening(:type =>  "license", :qualifier => "mvPersonal")
               else
                 xml.Screening(:type =>  "abuse")
