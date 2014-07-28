@@ -99,11 +99,6 @@ module SterlingApi
     #          <InternetWebAddress>#{AppSettings[:sterling_return_url]}</InternetWebAddress>
     #        </OnlineAddress>
     #        <ReturnOrderNumber>Y</ReturnOrderNumber>
-    #        <ResultStatusReturn>
-    #          <RedStatusReturn>Ineligble</RedStatusReturn>
-    #          <YellowStatusReturn>Decisional</YellowStatusReturn>
-    #          <GreenStatusReturn>Eligible</GreenStatusReturn>
-    #        </ResultStatusReturn>
     #      </UserAreaContent>
     #    </UserArea>
     #  </BackgroundCheck>
@@ -141,11 +136,6 @@ module SterlingApi
                 xml.InternetWebAddress AppSettings[:sterling_return_url]
               }
               xml.ReturnOrderNumber "Y"
-              xml.ResultStatusReturn {
-                xml.RedStatusReturn "Ineligible"
-                xml.YellowStatusReturn "Decisional"
-                xml.GreenStatusReturn "Eligible"
-              }
             }
           }
         }
